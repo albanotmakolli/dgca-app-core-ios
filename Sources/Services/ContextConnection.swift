@@ -60,19 +60,20 @@ public extension ContextConnection {
         var evaluators: [String: ServerTrustPolicy] = [:]
         evaluators["\(host)-revoke"] = ServerTrustPolicy.performRevokedEvaluation(validateHost: true, revocationFlags: kSecRevocationCRLMethod)
         evaluators["\(host)-custom"] = ServerTrustPolicy.customEvaluation { (trust: SecTrust, host:String) in
-            var hashes: [String] = []
-            if let key = SecTrustCopyPublicKey(trust), let der = SecKeyCopyExternalRepresentation(key, nil) {
-                hashes.append(SHA256.digest(input: der as NSData).base64EncodedString())
+            let certificates = (0..<SecTrustGetCertificateCount(trust)).compactMap { index in
+                return SecTrustGetCertificateAtIndex(trust, index)
             }
-//            let hashes: [String] =
-//                trust.af.publicKeys.compactMap { key in
-//              guard
-//                let der = SecKeyCopyExternalRepresentation(key, nil)
-//              else {
-//                return nil
-//              }
-//              return SHA256.digest(input: der as NSData).base64EncodedString()
-//            }
+            let publicKeys = certificates.compactMap { certificate in
+                return SecCertificateCopyPublicKey(certificate)
+            }
+            let hashes: [String] = publicKeys.compactMap { key in
+              guard
+                let der = SecKeyCopyExternalRepresentation(key, nil)
+              else {
+                return nil
+              }
+              return SHA256.digest(input: der as NSData).base64EncodedString()
+            }
             for hash in (hashes + ["*"]) {
               if keys.contains(hash) {
                 #if DEBUG && targetEnvironment(simulator)
