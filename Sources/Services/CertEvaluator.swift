@@ -27,44 +27,44 @@
 import Foundation
 import Alamofire
 
-public struct CertEvaluator: ServerTrustEvaluating {
-  class CertError: Error {}
-
-  let pubKeys: [String]
-
-  public func evaluate(_ trust: SecTrust, forHost host: String) throws {
-    let hashes: [String] = trust.af.publicKeys.compactMap { key in
-      guard
-        let der = SecKeyCopyExternalRepresentation(key, nil)
-      else {
-        return nil
-      }
-      return SHA256.digest(input: der as NSData).base64EncodedString()
-    }
-    for hash in (hashes + ["*"]) {
-      if pubKeys.contains(hash) {
-        #if DEBUG && targetEnvironment(simulator)
-        print("SSL Pubkey matches. ✅")
-        #endif
-        return
-      }
-    }
-    #if !DEBUG || !targetEnvironment(simulator)
-    let failure = true
-    #else
-    let failure = false
-    #endif
-    if failure && 0 < 1 { // silence unreachable warning
-      throw Self.CertError()
-    }
-    print("\nFATAL: None of the hashes matched our public keys! These keys were loaded:")
-    print(pubKeys.joined(separator: "\n"))
-    print("\nThe server returned this chain:")
-    print(hashes.joined(separator: "\n"))
-  }
-
-  public init(pubKeys: [String]) {
-    self.pubKeys = pubKeys
-  }
-
-}
+//public struct CertEvaluator: ServerTrustEvaluating {
+//  class CertError: Error {}
+//
+//  let pubKeys: [String]
+//
+//  public func evaluate(_ trust: SecTrust, forHost host: String) throws {
+//    let hashes: [String] = trust.af.publicKeys.compactMap { key in
+//      guard
+//        let der = SecKeyCopyExternalRepresentation(key, nil)
+//      else {
+//        return nil
+//      }
+//      return SHA256.digest(input: der as NSData).base64EncodedString()
+//    }
+//    for hash in (hashes + ["*"]) {
+//      if pubKeys.contains(hash) {
+//        #if DEBUG && targetEnvironment(simulator)
+//        print("SSL Pubkey matches. ✅")
+//        #endif
+//        return
+//      }
+//    }
+//    #if !DEBUG || !targetEnvironment(simulator)
+//    let failure = true
+//    #else
+//    let failure = false
+//    #endif
+//    if failure && 0 < 1 { // silence unreachable warning
+//      throw Self.CertError()
+//    }
+//    print("\nFATAL: None of the hashes matched our public keys! These keys were loaded:")
+//    print(pubKeys.joined(separator: "\n"))
+//    print("\nThe server returned this chain:")
+//    print(hashes.joined(separator: "\n"))
+//  }
+//
+//  public init(pubKeys: [String]) {
+//    self.pubKeys = pubKeys
+//  }
+//
+//}

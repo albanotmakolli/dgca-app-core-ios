@@ -32,7 +32,7 @@ public protocol ContextConnection {
   static var config: JSON { get }
 }
 
-var alamofireSessions = [String: Alamofire.Session]()
+var alamofireSessions = [String: SessionManager]()
 
 public extension ContextConnection {
   static func request(
@@ -42,8 +42,9 @@ public extension ContextConnection {
     parameters: Parameters? = nil,
     encoding: ParameterEncoding = URLEncoding.default,
     headers: HTTPHeaders? = nil,
-    interceptor: RequestInterceptor? = nil,
-    requestModifier: Alamofire.Session.RequestModifier? = nil
+    adapter: RequestAdapter? = nil,
+    retrier: RequestRetrier? = nil
+//    requestModifier: SessionManager.RequestModifier? = nil
   ) -> DataRequest {
     var json = config
     for key in path {
@@ -56,25 +57,27 @@ public extension ContextConnection {
         keys = json["pubKeys"].array?.compactMap { $0.string } ?? []
       }
       let host = URL(string: url)?.host ?? ""
-      let evaluators: [String: ServerTrustEvaluating] = [
-        host: CompositeTrustEvaluator(evaluators: [
-          RevocationTrustEvaluator(),
-          CertEvaluator(pubKeys: keys)
-        ])
-      ]
+//      let evaluators: [String: ServerTrustPolicy] = [
+//        host: CompositeTrustEvaluator(evaluators: [
+//          RevocationTrustEvaluator(),
+//          CertEvaluator(pubKeys: keys)
+//        ]
+//      ]
 
-      let trust = ServerTrustManager(evaluators: evaluators)
-      alamofireSessions[url] = Alamofire.Session(serverTrustManager: trust)
+//        let trust = ServerTrustPolicyManager(policies: evaluators)
+    alamofireSessions[url] = SessionManager()
+//    alamofireSessions[url]?.retrier = retrier
+//    alamofireSessions[url]?.adapter = adapter
     }
-    let session = alamofireSessions[url] ?? AF
+    let session = alamofireSessions[url]!// ?? AF
     return session.request(
       url,
       method: method,
       parameters: parameters,
       encoding: encoding,
-      headers: headers,
-      interceptor: interceptor,
-      requestModifier: requestModifier
+      headers: headers
+//      interceptor: interceptor,
+//      requestModifier: requestModifier
     )
   }
 }
