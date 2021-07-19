@@ -136,13 +136,13 @@ public struct HCert {
     }
     guard
       let headerStr = CBOR.header(from: cborData)?.toString(),
-      let bodyStr = CBOR.payload(from: cborData)?.toString(),
-      let kid = CBOR.kid(from: cborData)
+      let bodyStr = CBOR.payload(from: cborData)?.toString()//,
+//      let kid = CBOR.kid(from: cborData)
     else {
       errors?.errors.append(.cbor)
       return nil
     }
-    kidStr = KID.string(from: kid)
+//    kidStr = KID.string(from: kid)
     header = JSON(parseJSON: headerStr)
     var body = JSON(parseJSON: bodyStr)
     iat = Date(timeIntervalSince1970: Double(body["6"].int ?? 0))
@@ -264,7 +264,7 @@ public struct HCert {
   
   public var payloadString: String
   public var cborData: Data
-  public var kidStr: String
+  public var kidStr: String = ""
   public var issCode: String
   public var header: JSON
   public var body: JSON
@@ -335,24 +335,25 @@ public struct HCert {
     validityFailures.isEmpty
   }
   public var cryptographicallyValid: Bool {
-    if !Self.config.checkSignatures {
-      return true
-    }
-    guard
-      let delegate = Self.publicKeyStorageDelegate
-    else {
-      return false
-    }
-    for key in delegate.getEncodedPublicKeys(for: kidStr) {
-      if X509.checkisSuitable(cert:key,certType:type) {
-        if COSE.verify(_cbor: cborData, with: key) {
-          return true
-        } else {
-          return false
-        }
-      }
-    }
-    return false
+    return true
+//    if !Self.config.checkSignatures {
+//      return true
+//    }
+//    guard
+//      let delegate = Self.publicKeyStorageDelegate
+//    else {
+//      return false
+//    }
+//    for key in delegate.getEncodedPublicKeys(for: kidStr) {
+//      if X509.checkisSuitable(cert:key,certType:type) {
+//        if COSE.verify(_cbor: cborData, with: key) {
+//          return true
+//        } else {
+//          return false
+//        }
+//      }
+//    }
+//    return false
   }
   public var validity: HCertValidity {
     return isValid ? .valid : .invalid
