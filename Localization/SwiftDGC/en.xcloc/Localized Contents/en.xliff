@@ -1283,6 +1283,11 @@
         <target>Vaccination</target>
         <note/>
       </trans-unit>
+      <trans-unit id="enum.HCertValidity.ruleInvalid" xml:space="preserve">
+        <source>Limited validity</source>
+        <target>Limited validity</target>
+        <note/>
+      </trans-unit>
       <trans-unit id="enum.HCertValidity.invalid" xml:space="preserve">
         <source>Invalid</source>
         <target>Invalid</target>
@@ -1349,8 +1354,8 @@
         <note/>
       </trans-unit>
       <trans-unit id="hcert.err.iat" xml:space="preserve">
-        <source>Certificate issuance date is in the future.</source>
-        <target>Certificate issuance date is in the future.</target>
+        <source>Cryptographic signature not valid.</source>
+        <target>Cryptographic signature not valid.</target>
         <note/>
       </trans-unit>
       <trans-unit id="hcert.err.rec.future" xml:space="preserve">
@@ -1466,6 +1471,11 @@
       <trans-unit id="test.issuer" xml:space="preserve">
         <source>Test Issuer</source>
         <target>Test Issuer</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="test.type" xml:space="preserve">
+        <source>Type of Test</source>
+        <target>Type of Test</target>
         <note/>
       </trans-unit>
       <trans-unit id="test.man.344" xml:space="preserve">
@@ -1821,6 +1831,16 @@
       <trans-unit id="vaccine.x-of-x" xml:space="preserve">
         <source>%d of %d</source>
         <target>%d of %d</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="issuer.country" xml:space="preserve">
+        <source>Issuer Country</source>
+        <target>Issuer Country</target>
+        <note/>
+      </trans-unit>
+      <trans-unit id="section.name" xml:space="preserve">
+        <source>Name</source>
+        <target>Name</target>
         <note/>
       </trans-unit>
     </body>
