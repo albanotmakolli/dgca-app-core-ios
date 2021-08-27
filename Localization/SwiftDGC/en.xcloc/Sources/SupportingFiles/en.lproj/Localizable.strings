@@ -30,6 +30,7 @@
 "enum.HCertType.recovery" = "Recovery";
 "enum.HCertValidity.valid" = "Valid";
 "enum.HCertValidity.invalid" = "Invalid";
+"enum.HCertValidity.invalid" = "Limited validity";
 "header.cert-type" = "Certificate Type";
 "header.dob" = "Date of Birth";
 "header.std-fn" = "Standardised Family Name";
@@ -73,7 +74,7 @@
 "hcert.err.empty" = "No entries in the certificate.";
 "hcert.err.crypto" = "Cryptographic signature not valid.";
 "hcert.err.exp" = "Certificate past expiration date.";
-"hcert.err.iat" = "Certificate issuance date is in the future.";
+"hcert.err.iat" = "Cryptographic signature not valid.";
 "hcert.err.vac.future" = "Vaccination date is in the future.";
 "hcert.err.rec.future" = "Recovery statement is not valid yet.";
 "hcert.err.rec.past" = "Recovery statement is not valid anymore.";
@@ -107,6 +108,7 @@
 "test.man.1278" = "Xiamen Boson Biotech Co. Ltd, Rapid SARS-CoV-2 Antigen Test Card";
 "test.man.1343" = "Zhejiang Orient Gene Biotech, Coronavirus Ag Rapid Test Cassette (Swab)";
 "test.man.unknown" = "Unknown";
+"test.type" = "Type of Test";
 
 "disease.840539006" = "COVID-19";
 "disease.unknown" = "Unknown";
@@ -277,7 +279,7 @@
 "country.LT" = "Lithuania";
 "country.LU" = "Luxembourg";
 "country.MO" = "Macao";
-"country.MK" = "Macedonia, the former Yugoslav Republic of";
+"country.MK" = "North Macedonia";
 "country.MG" = "Madagascar";
 "country.MW" = "Malawi";
 "country.MY" = "Malaysia";
@@ -395,3 +397,5 @@
 "country.YE" = "Yemen";
 "country.ZM" = "Zambia";
 "country.ZW" = "Zimbabwe";
+"issuer.country" = "Issuer Country";
+"section.name" = "Name";
